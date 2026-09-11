@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendaftaran Tim MLBB</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    padding: 20px;
+    color: #fff;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .logo { text-align: center; font-size: 50px; margin-bottom: 5px; }
+
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 5px;
+    background: linear-gradient(90deg, #f7971e, #ffd200);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #bbb;
+    margin-bottom: 25px;
+  }
+
+  .form-group { margin-bottom: 18px; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #ddd;
+    font-weight: 500;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  input:focus, select:focus {
+    border-color: #ffd200;
+    box-shadow: 0 0 10px rgba(255, 210, 0, 0.3);
+  }
+
+  input::placeholder { color: #888; }
+  select option { background: #24243e; color: #fff; }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #f7971e, #ffd200);
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 210, 0, 0.4);
+  }
+
+  button:active { transform: translateY(0); }
+
+  .success-box {
+    display: none;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .success-box .check { font-size: 60px; margin-bottom: 10px; }
+
+  .success-box h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #4cd137;
+  }
+
+  .success-box p {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .preview-box {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px dashed rgba(255, 210, 0, 0.5);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #eee;
+    font-family: 'Consolas', 'Courier New', monospace;
+    position: relative;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .preview-label {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: linear-gradient(90deg, #f7971e, #ffd200);
+    color: #1a1a1a;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .copy-btn {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .copy-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(162, 155, 254, 0.4);
+  }
+
+  .copy-btn.copied {
+    background: linear-gradient(90deg, #00b894, #00cec9);
+  }
+
+  .btn-wa {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #25D366, #128C7E);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .btn-wa:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(37, 211, 102, 0.5);
+  }
+
+  .btn-group {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #00b894, #00cec9);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 20px rgba(0, 206, 201, 0.3);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .btn-group:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 206, 201, 0.5);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    color: #888;
+    font-size: 11px;
+    margin: 15px 0;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .divider span { padding: 0 10px; }
+
+  .note {
+    font-size: 11px;
+    color: #888;
+    text-align: center;
+    margin-top: 15px;
+    line-height: 1.5;
+  }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- FORM PENDAFTARAN -->
+  <div id="formSection">
+    <div class="logo">🎮</div>
+    <h1>PENDAFTARAN TIM MLBB</h1>
+    <p class="subtitle">Isi data di bawah untuk bergabung</p>
+
+    <form id="regForm" onsubmit="return daftar(event)">
+      <div class="form-group">
+        <label for="nama">Nama Lengkap / Nickname</label>
+        <input type="text" id="nama" placeholder="Contoh: ProPlayer123" required>
+      </div>
+
+      <div class="form-group">
+        <label for="id">ID MLBB</label>
+        <input type="text" id="id" placeholder="Contoh: 123456789 (1234)" required>
+      </div>
+
+      <div class="form-group">
+        <label for="role">Role Utama</label>
+        <select id="role" required>
+          <option value="">-- Pilih Role --</option>
+          <option value="Tank">Tank</option>
+          <option value="Fighter">Fighter</option>
+          <option value="Assassin">Assassin</option>
+          <option value="Mage">Mage</option>
+          <option value="Marksman">Marksman</option>
+          <option value="Support">Support</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="hero">Hero Favorit</label>
+        <input type="text" id="hero" placeholder="Contoh: Fanny, Gusion, Ling" required>
+      </div>
+
+      <div class="form-group">
+        <label for="rank">Rank Saat Ini</label>
+        <select id="rank" required>
+          <option value="">-- Pilih Rank --</option>
+          <option value="Warrior">Warrior</option>
+          <option value="Elite">Elite</option>
+          <option value="Master">Master</option>
+          <option value="Grandmaster">Grandmaster</option>
+          <option value="Epic">Epic</option>
+          <option value="Legend">Legend</option>
+          <option value="Mythic">Mythic</option>
+          <option value="Mythical Honor">Mythical Honor</option>
+          <option value="Mythical Glory">Mythical Glory</option>
+          <option value="Immo dong">Immo dong</option>
+        </select>
+      </div>
+
+      <button type="submit">Daftar Sekarang 🚀</button>
+      <p class="note">Setelah mendaftar, kamu akan diarahkan ke grup tim.</p>
+    </form>
+  </div>
+
+  <!-- HASIL SUKSES -->
+  <div class="success-box" id="successSection">
+    <div class="check">✅</div>
+    <h2>Pendaftaran Berhasil!</h2>
+    <p>Terima kasih <span id="namaUser" style="color:#ffd200;font-weight:bold;"></span>!<br>
+       Pilih cara bergabung di bawah ini.</p>
+
+    <!-- Papan teks otomatis berisi data -->
+    <div class="preview-box">
+      <span class="preview-label">📋 Papan Teks Kamu</span>
+      <span id="teksPendaftar"></span>
+    </div>
+
+    <!-- Tombol Kirim ke WhatsApp dengan format otomatis -->
+    <a href="#" id="btnWA" class="btn-wa" target="_blank" rel="noopener">
+      💬 Kirim Format via WhatsApp
+    </a>
+
+    <div class="divider"><span>ATAU</span></div>
+
+    <button class="copy-btn" id="copyBtn" onclick="copyTeks()">📄 Copy Teks Pendaftaran</button>
+
+    <a href="#" id="linkGrup" class="btn-group" target="_blank" rel="noopener">
+      ➤ Masuk Grup Tim MLBB
+    </a>
+
+    <p class="note">
+      💡 Cara cepat: Klik <b>Kirim Format via WhatsApp</b> untuk kirim otomatis,
+      atau <b>Copy Teks</b> lalu paste manual di grup.
+    </p>
+  </div>
+</div>
+
+<script>
+  // ============================================
+  // KONFIGURASI - GANTI DI SINI
+  // ============================================
+  const LINK_GRUP = "https://chat.whatsapp.com/BNQYvn1nZ9fAzgEcqHbXEe?s=cl&p=a&mlu=0&ilr=4";
+  // Contoh lain:
+  // const LINK_GRUP = "https://discord.gg/xxxxxxxx";
+  // const LINK_GRUP = "https://t.me/xxxxxxx";
+
+  // Nomor WhatsApp admin/tujuan (format internasional tanpa + atau 0)
+  // Contoh: 6281234567890
+  const NOMOR_WA_ADMIN = "6295385629167";
+
+  // ============================================
+  let teksGlobal = "";
+  let waLinkGlobal = "";
+
+  function daftar(e) {
+    e.preventDefault();
+
+    const nama = document.getElementById('nama').value.trim();
+    const idML = document.getElementById('id').value.trim();
+    const role = document.getElementById('role').value;
+    const hero = document.getElementById('hero').value.trim();
+    const rank = document.getElementById('rank').value;
+
+    if (!nama || !idML || !role || !hero || !rank) {
+      alert('Mohon lengkapi semua data terlebih dahulu!');
+      return false;
+    }
+
+    // ==========================================
+    // FORMAT TEKS OTOMATIS
+    // ==========================================
+    teksGlobal =
+`📌 *PENDAFTARAN TIM MLBB*
+━━━━━━━━━━━━━━━
+👤 Nama/Nick : ${nama}
+🆔 ID MLBB   : ${idML}
+🎯 Role      : ${role}
+🦸 Hero Fav  : ${hero}
+🏆 Rank      : ${rank}
+━━━━━━━━━━━━━━━
+✅ Siap bergabung ke tim!`;
+
+    // Tampilkan preview
+    document.getElementById('teksPendaftar').textContent = teksGlobal;
+
+    // Tampilkan halaman sukses
+    document.getElementById('formSection').classList.add('hidden');
+    document.getElementById('successSection').style.display = 'block';
+    document.getElementById('namaUser').textContent = nama;
+
+    // Set link grup & link WA
+    document.getElementById('linkGrup').href = LINK_GRUP;
+    document.getElementById('btnWA').href = waLinkGlobal;
+
+    // Auto-copy ke clipboard
+    autoCopy(teksGlobal);
+
+    // Simpan ke localStorage (opsional)
+    localStorage.setItem('pendaftar_mlbb', JSON.stringify({
+      nama, id: idML, role, hero, rank,
+      waktu: new Date().toLocaleString('id-ID')
+    }));
+
+    return false;
+  }
+
+  function autoCopy(teks) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(teks).then(() => {
+        ubahTombolCopy(true);
+      }).catch(() => {});
+    } else {
+      fallbackCopy(teks);
+    }
+  }
+
+  function copyTeks() {
+    if (!teksGlobal) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(teksGlobal).then(() => {
+        ubahTombolCopy(true);
+      }).catch(() => fallbackCopy(teksGlobal));
+    } else {
+      fallbackCopy(teksGlobal);
+    }
+  }
+
+  function fallbackCopy(teks) {
+    const ta = document.createElement('textarea');
+    ta.value = teks;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); ubahTombolCopy(true); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  function ubahTombolCopy(state) {
+    const btn = document.getElementById('copyBtn');
+    if (state) {
+      btn.textContent = '✅ Teks Tercopy! Tinggal Paste di Grup';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '📄 Copy Teks Pendaftaran';
+        btn.classList.remove('copied');
+      }, 3000);
+    }
+  }
+</script>
+
+</body>
+</html>
